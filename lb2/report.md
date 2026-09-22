@@ -109,7 +109,6 @@ SauceDemo Login: https://www.saucedemo.com/
 | TC-LOGIN-02 | R4 |
 | TC-LOGIN-03 | R2 |
 
-Окремими Test Cases не покриті правила **R3** (неправильний Username + правильний Password) та **R5** (неправильний Username + неправильний Password).
 
 ## Результати виконання
 
@@ -119,6 +118,5 @@ SauceDemo Login: https://www.saucedemo.com/
 | TC-LOGIN-02 | Negative | Pass |
 | TC-LOGIN-03 | Negative | Pass |
 
-Негативні Test Cases мають результат Pass, оскільки фактична поведінка системи відповідає очікуваній: система коректно відхилила неправильні або заблоковані credentials.
 
 
