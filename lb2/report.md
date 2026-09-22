@@ -13,7 +13,7 @@ SauceDemo Login: https://www.saucedemo.com/
 
 - Операційна система: Windows
 - Браузер: інтегрований браузер VS Code
-- Дата тестування: 22.09.2026
+- Дата тестування: 21.09.2026
 
 ## Test Basis
 
