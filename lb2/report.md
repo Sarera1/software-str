@@ -120,3 +120,7 @@ SauceDemo Login: https://www.saucedemo.com/
 
 
 
+## Висновок
+
+Під час лабораторної роботи було визначено test conditions на основі test basis, сформовано checklist, описано один позитивний і два негативні test cases та побудовано decision table для комбінацій username і password. У SauceDemo виконано всі три test cases, кожен завершився результатом Pass.
+
