@@ -2,31 +2,9 @@
 
 ## Модульне тестування програмного коду за допомогою Vitest
 
-**Виконав:** Ковальов Гордій  
-**Група:** 6.1213.1  
-**Дата:** 06.10.2026  
-**Гілка:** `lb3`
-
-## Мета роботи
-
-Ознайомитися з принципами модульного тестування, навчитися створювати unit tests за допомогою Vitest за схемою Arrange–Act–Assert, використовувати assertions та параметризовані тести, застосовувати Equivalence Partitioning і Boundary Value Analysis та аналізувати Code Coverage.
-
-## Тестове середовище
-
-- Node.js: v24.11.1
-- npm: 11.6.2
-- Vitest: 5.0.3 (`@vitest/coverage-v8` 5.0.3)
-- Встановлення залежностей: `npm ci`
-- Запуск тестів: `npm test` (у звіті використано `npx vitest run`)
-- Запуск coverage: `npm run coverage`
-
-### Перевірка середовища
-
-![node -v та npm -v](screenshots/01-node-npm.png)
-
-### Встановлення залежностей
-
-![npm ci](screenshots/02-npm-ci.png)
+**Виконав: Ковальов Гордій**  
+**Група: 6.1213.1**  
+**Дата: 06.10.2026**
 
 ## Test Object
 
@@ -34,21 +12,15 @@
 
 ## Функції
 
-- `calculateDiscount(price, percent)`
-- `validateQuantity(quantity)`
-- `getShippingCost(total)`
-
-## Test Basis
-
-| Функція | Правило |
-|---|---|
-| `calculateDiscount` | `price` - невід'ємне число; `percent` від 0 до 100 включно; результат = `price - price × percent / 100`; неправильні аргументи -> `Error` |
-| `validateQuantity` | тільки ціле число; допустимий діапазон 1-10 включно; допустиме -> `true`, недопустиме -> `false` |
-| `getShippingCost` | `total` - невід'ємне число; `total < 1000` -> 100; `total >= 1000` -> 0; неправильне значення -> `Error` |
+- `calculateDiscount()`
+- `validateQuantity()`
+- `getShippingCost()`
 
 ## Test Design
 
 ### calculateDiscount
+
+Test Conditions та Test Data:
 
 | Test Condition | price | percent | Expected |
 |---|---:|---:|---|
@@ -69,7 +41,7 @@ Equivalence partitions:
 | > 10 | Invalid | `false` |
 | не ціле число | Invalid | `false` |
 
-Boundary Value Analysis (межі 1 і 10) та параметризований `test.for()`:
+Boundary values (межі 1 і 10, параметризований `test.for()`):
 
 | quantity | Expected | Що перевіряє |
 |---:|---|---|
@@ -83,36 +55,15 @@ Boundary Value Analysis (межі 1 і 10) та параметризований
 
 ### getShippingCost
 
+Перевірені гілки:
+
 | total | Expected | Гілка |
 |---:|---|---|
-| 999 | 100 | значення безпосередньо перед межею 1000 |
-| 1000 | 0 | сама межа (`total >= 1000`) |
-| -1 | `Error: Total must be a non-negative number` | invalid partition |
+| 999 | 100 | `0 <= total < 1000` (значення перед межею 1000) |
+| 1000 | 0 | `total >= 1000` (сама межа) |
+| -1 | `Error: Total must be a non-negative number` | `total < 0` (invalid partition) |
 
 ## Результати тестування
-
-Фактичний запуск (`npx vitest run --reporter=verbose`):
-
-```text
- ✓ calculateDiscount > returns 90 for price 100 and discount 10%
- ✓ calculateDiscount > returns 100 for price 100 and discount 0% (lower bound)
- ✓ calculateDiscount > returns 0 for price 100 and discount 100% (upper bound)
- ✓ calculateDiscount > throws error for negative price
- ✓ calculateDiscount > throws error for discount above 100%
- ✓ validateQuantity > validateQuantity(0) returns false
- ✓ validateQuantity > validateQuantity(1) returns true
- ✓ validateQuantity > validateQuantity(2) returns true
- ✓ validateQuantity > validateQuantity(9) returns true
- ✓ validateQuantity > validateQuantity(10) returns true
- ✓ validateQuantity > validateQuantity(11) returns false
- ✓ validateQuantity > validateQuantity(1.5) returns false
- ✓ getShippingCost > returns 100 for total below 1000
- ✓ getShippingCost > returns 0 for total equal to 1000
- ✓ getShippingCost > throws error for negative total
-
- Test Files  1 passed (1)
-      Tests  15 passed (15)
-```
 
 | Група тестів | Кількість | Result |
 |---|---:|---|
@@ -123,22 +74,9 @@ Boundary Value Analysis (межі 1 і 10) та параметризований
 
 ![Результат npm test](screenshots/03-npm-test.png)
 
-Усі тести отримали результат Pass, тобто Actual Result збігається з Expected Result, визначеним у Test Basis. Тестів із результатом Fail немає, тому окремого аналізу падінь не потрібно; код у `src/shop-utils.js` не змінювався.
+Усі 15 тестів завершилися Pass: Actual Result збігається з Expected Result. Код у `src/shop-utils.js` не змінювався, тому Fail немає.
 
 ## Coverage
-
-Фактичний запуск `npm run coverage` (провайдер v8):
-
-```text
- % Coverage report from v8
-No files with missing coverage.
-1 file fully covered.
-
-Statements   : 100% ( 11/11 )
-Branches     : 100% ( 18/18 )
-Functions    : 100% ( 3/3 )
-Lines        : 100% ( 11/11 )
-```
 
 | Metric | Result |
 |---|---:|
@@ -149,27 +87,23 @@ Lines        : 100% ( 11/11 )
 
 ![Результат npm run coverage](screenshots/05-npm-run-coverage.png)
 
-HTML-звіт формується у теці `coverage/` (файл `coverage/index.html`); тека додана до `.gitignore`.
+HTML-звіт (`coverage/index.html`):
 
 ![HTML Coverage: All files](screenshots/06-coverage-html-index.png)
 
 ![HTML Coverage: shop-utils.js](screenshots/07-coverage-html-shop-utils.png)
 
-### Аналіз
-
-Coverage до додаткового завдання (без тесту `throws error for discount above 100%`):
+До додаткового завдання (14 тестів, без тесту `throws error for discount above 100%`) покриття було Statements 90.9% (10/11), Branches 94.44% (17/18), Functions 100% (3/3), Lines 90.9% (10/11); непокритим був рядок 13 — гілка `throw new Error('Discount must be between 0 and 100')`:
 
 ![Coverage до додаткового завдання, термінал](screenshots/04-coverage-before-bonus-terminal.png)
 
 ![Coverage до додаткового завдання, HTML: непокритий рядок 13](screenshots/04b-coverage-before-bonus-html.png)
 
-Перед додатковим завданням (без тесту `throws error for discount above 100%`, 14 тестів) фактичний запуск дав Statements 90.9% (10/11), Branches 94.44% (17/18), Functions 100% (3/3), Lines 90.9% (10/11); непокритим був рядок 13. Тести з пунктів 3-6 не виконували гілку `throw new Error('Discount must be between 0 and 100')` у `calculateDiscount()`. Додатковий тест `throws error for discount above 100%` (`price = 100`, `percent = 101`) виконує цю гілку, і після нього Statements, Branches, Functions і Lines дорівнюють 100%.
-
-100% Coverage означає лише те, що кожен рядок і гілка коду виконувалися під час тестів. Це не доводить, що Test Data та Expected Result правильні і що враховано всі вимоги. Наприклад, значення `NaN`, `Infinity` або `percent = -1` не перевірялися окремо, хоча відповідні умови формально покриті.
+Додатковий тест із `percent = 101` виконує цю гілку, після чого всі показники дорівнюють 100%. 100% Coverage означає лише те, що код виконувався під час тестів, і не доводить правильність Test Data, Expected Result чи повноту врахування вимог.
 
 ## Висновок
 
-У ході лабораторної роботи було підготовлено проєкт, встановлено залежності командою `npm ci` та створено 15 unit tests для трьох функцій модуля `src/shop-utils.js`. Тести структуровано за схемою Arrange–Act–Assert і згруповано через `describe()`. Для `calculateDiscount()` перевірено типове значення, обидві межі знижки (0 і 100) та помилкові значення `price` і `percent`. Для `validateQuantity()` застосовано Equivalence Partitioning, Boundary Value Analysis і параметризований `test.for()` із 7 наборами даних. Для `getShippingCost()` перевірено значення 999, 1000 та -1. Усі 15 тестів завершилися Pass. Coverage Report показав 100% за Statements, Branches, Functions і Lines, але це свідчить лише про виконання коду тестами, а не про відсутність дефектів.
+Створено 15 unit tests для трьох функцій `src/shop-utils.js` за схемою Arrange–Act–Assert із групуванням через `describe()`. Для `calculateDiscount()` перевірено типове значення, обидві межі знижки та помилкові `price`/`percent`; для `validateQuantity()` застосовано Equivalence Partitioning, Boundary Value Analysis і параметризований `test.for()`; для `getShippingCost()` перевірено 999, 1000 та -1. Усі тести Pass, Coverage — 100% за всіма метриками.
 
 ## Контрольні питання
 
