@@ -20,6 +20,14 @@
 - Запуск тестів: `npm test` (у звіті використано `npx vitest run`)
 - Запуск coverage: `npm run coverage`
 
+### Перевірка середовища
+
+![node -v та npm -v](screenshots/01-node-npm.png)
+
+### Встановлення залежностей
+
+![npm ci](screenshots/02-npm-ci.png)
+
 ## Test Object
 
 `src/shop-utils.js`
@@ -113,6 +121,8 @@ Boundary Value Analysis (межі 1 і 10) та параметризований
 | getShippingCost | 3 | Pass |
 | **Разом** | **15** | **15 Pass / 0 Fail** |
 
+![Результат npm test](screenshots/03-npm-test.png)
+
 Усі тести отримали результат Pass, тобто Actual Result збігається з Expected Result, визначеним у Test Basis. Тестів із результатом Fail немає, тому окремого аналізу падінь не потрібно; код у `src/shop-utils.js` не змінювався.
 
 ## Coverage
@@ -137,9 +147,21 @@ Lines        : 100% ( 11/11 )
 | Functions | 100% (3/3) |
 | Lines | 100% (11/11) |
 
+![Результат npm run coverage](screenshots/05-npm-run-coverage.png)
+
 HTML-звіт формується у теці `coverage/` (файл `coverage/index.html`); тека додана до `.gitignore`.
 
+![HTML Coverage: All files](screenshots/06-coverage-html-index.png)
+
+![HTML Coverage: shop-utils.js](screenshots/07-coverage-html-shop-utils.png)
+
 ### Аналіз
+
+Coverage до додаткового завдання (без тесту `throws error for discount above 100%`):
+
+![Coverage до додаткового завдання, термінал](screenshots/04-coverage-before-bonus-terminal.png)
+
+![Coverage до додаткового завдання, HTML: непокритий рядок 13](screenshots/04b-coverage-before-bonus-html.png)
 
 Перед додатковим завданням (без тесту `throws error for discount above 100%`, 14 тестів) фактичний запуск дав Statements 90.9% (10/11), Branches 94.44% (17/18), Functions 100% (3/3), Lines 90.9% (10/11); непокритим був рядок 13. Тести з пунктів 3-6 не виконували гілку `throw new Error('Discount must be between 0 and 100')` у `calculateDiscount()`. Додатковий тест `throws error for discount above 100%` (`price = 100`, `percent = 101`) виконує цю гілку, і після нього Statements, Branches, Functions і Lines дорівнюють 100%.
 
